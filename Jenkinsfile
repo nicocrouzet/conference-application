@@ -41,5 +41,30 @@ pipeline {
                 }
             }
         }
+
+        stage('Run Test image Parallel 1') {
+            parallel {
+                   stage('Run 1') {
+                        steps{
+                            // Run the maven build with checkstyle
+                            echo "Run parallel 1"
+                            sh "docker stop conference-app-test || true && docker rm conference-app-test || true"
+                            sh 'docker run -d --name conference-app-test -p 8890:8080 conference-app'
+                         }
+                     }
+                   stage('Run 2') {
+                        steps{
+                            // Run the maven build with checkstyle
+                            echo "Run parallel 2"
+                         }
+                     }
+                   stage('Run 3') {
+                        steps{
+                            // Run the maven build with checkstyle
+                            echo "Run parallel 3"
+                         }
+                   }
+            }
+        }
     }
 }
